@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "MY_BOOK")
 public class MyBook {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MY_BOOK_NO")
     private Integer myBookNo;
     @Column(name = "USER_NO")

@@ -2,13 +2,7 @@ package com.pllis.mylog.domain;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "BOOK_LOG")
 public class BookLog {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOK_LOG_NO")
     private Integer bookLogNo;
     @Column(name = "MY_BOOK_NO")
