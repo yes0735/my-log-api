@@ -3,8 +3,7 @@ package com.pllis.mylog.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -23,6 +22,6 @@ public class UserBookListDto {
     private Integer totalPage;
     private Integer readPage;
     private Integer scope;
-    private LocalDateTime registrationDatetime;
-    private LocalDateTime updateDatetime;
+    private Date registrationDatetime;
+    private Date updateDatetime;
 }
