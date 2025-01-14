@@ -26,7 +26,7 @@ public class CommonCode {
     private String codeDescription;
 
     @Column(name="USE_YN", nullable = false)
-    private String useYn = "Y";
+    private String useYn;
 
     //updatable = false -> 수정 금지
     @Temporal(TemporalType.TIMESTAMP) //Date 타입에 쓰는게 좋음
