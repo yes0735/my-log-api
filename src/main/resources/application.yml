@@ -1,0 +1,36 @@
+spring:
+    profiles:
+        default: local
+        group:
+            local:
+                - secret
+                - swagger
+            dev:
+                - secret
+                - swagger
+            prod:
+                - secret
+                - swagger
+    application:
+        name: mylog
+
+server:
+    port: 8080
+    servlet:
+        encoding:
+            force-response: true
+            charset: UTF-8
+    tomcat:
+        uri-encoding: UTF-8
+        basedir: .
+        accesslog:
+            enabled: true
+            pattern: "[%{yy-MM-dd:HH:mm:ss}t] %s - %m %U %q <%{User-Agent}i> (%h)"
+
+logging:
+    level:
+        org.hibernate.SQL: debug
+    pattern:
+        console: "[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
+
+platform: mylog
