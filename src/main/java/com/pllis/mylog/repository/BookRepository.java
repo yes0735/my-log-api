@@ -24,7 +24,7 @@ public interface BookRepository extends JpaRepository<User, Integer> {  // JpaRe
             "M.readPage, " +
             "M.scope, " +
             "M.registrationDatetime, " +
-            "M.updateDatetime) " +
+            "M.updateDatetime )" +
             "FROM User U " +
             "INNER JOIN MyBook M ON U.userNo = M.userNo " +
             "LEFT JOIN CommonCode R ON M.readStatus = R.code AND R.useYn = 'Y' " +
