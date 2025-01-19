@@ -1,68 +1,42 @@
 package com.pllis.mylog.controller;
 
+import com.pllis.mylog.common.handler.ApiResponseHandler;
+import com.pllis.mylog.dto.UserBookListDto;
+import com.pllis.mylog.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pllis.mylog.common.handler.ApiResponseHandler;
-import com.pllis.mylog.dto.BookDto;
-import com.pllis.mylog.dto.CommonDto;
-import com.pllis.mylog.service.BookService;
-import com.pllis.mylog.domain.MyBook;
+import java.util.List;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-
-/**
- * 독서 클래스
- *
- * @author 이경희
- * @version 1.0
- */
 @RestController
-@RequiredArgsConstructor
-@Tag(name = "Book API", description = "Swagger Book 테스트용 API")
-public class BookController extends BaseController {
+@Tag(name="UserBookList API",description = "등록된 책 불러오기 API")
 
+@ResponseBody
+public class BookController extends BaseController{
     private final BookService bookService;
+    private  static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
-    /**
-     * 책장 리스트 조회
-     * @return BookDto
-     */
-    @Operation(summary = "리스트", description = "리스트 API 입니다.")
-    // @Parameter(name = "str", description = "2번 반복할 문자열")
+    @Autowired
+    public BookController(BookService bookService){
+        this.bookService = bookService;
+    }
+
+    @Operation(summary = "등록된 책 리스트", description = "등록된 책 리스트 API 입니다.")
     @GetMapping("/book")
     @ResponseBody
-    public ApiResponseHandler<CommonDto.ListResponse<MyBook>> getBookList() {
-        CommonDto.ListResponse<MyBook> result = bookService.getBookList();
-
-        return new ApiResponseHandler<>(result, 200, "ok");
+    public ApiResponseHandler<List<UserBookListDto>> getUserBooks() {
+        int userNo =1;
+        logger.info("메인페이지");
+        List<UserBookListDto> userBooks = bookService.getUserBooks(userNo);  // 서비스에서 책 리스트 가져오기
+        // ApiResponseHandler로 감싸서 반환
+        return new ApiResponseHandler<>(userBooks, 200, "사용자의 책 리스트를 성공적으로 가져왔습니다.");
     }
-
-    /**
-     * 책장 리스트 조회
-     * @return BookDto
-     */
-    @Operation(summary = "알라딘 책 검색 리스트 조회", description = "알라딘 책 검색 리스트 조회 API")
-    @GetMapping("/search-book")
-    @ResponseBody
-    public ApiResponseHandler<CommonDto.ListResponse<BookDto.BookSearchResponse>> getSearchBookList() {
-        CommonDto.ListResponse<BookDto.BookSearchResponse> result = bookService.getSearchBookList();
-
-        return new ApiResponseHandler<>(result, 200, "ok");
-    }
-    // @Operation(summary = "네이버 책 검색 리스트 조회", description = "리스트 API 입니다.")
-    // @GetMapping("/search-book")
-    // @ResponseBody
-    // public List<BookVo> getSearchBookList() {
-    //     return bookService.getSearchBookList();
-    // }
-
-    /**
-     * 나의 책 조회
-     * */
-
 
 }
+

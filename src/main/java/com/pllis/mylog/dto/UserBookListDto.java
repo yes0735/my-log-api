@@ -19,9 +19,16 @@ public class UserBookListDto {
     private String bookTitle;
     private String bookImageLink;
     private String readStatus;
+    private String readStatusName;  //COMMON_CODE 테이블 관련 필드
+    private String collectionType;
+    private String collectionTypeName;  //COMMON_CODE 테이블 관련 필드
     private Integer totalPage;
     private Integer readPage;
     private Integer scope;
     private Date registrationDatetime;
     private Date updateDatetime;
+
+
+
+
 }

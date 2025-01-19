@@ -133,3 +133,7 @@
 [25-01-14:21:36:55] 404 - GET /api/  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)
 [25-01-14:21:37:11] 404 - GET /api/  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)
 [25-01-14:21:39:10] 404 - GET /api/2  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)
+[25-01-14:22:33:29] 400 - GET /  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)
+[25-01-14:22:33:36] 200 - GET /2  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)
+[25-01-14:22:33:39] 200 - GET /3  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)
+[25-01-14:22:33:41] 200 - GET /1  <Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36> (0:0:0:0:0:0:0:1)

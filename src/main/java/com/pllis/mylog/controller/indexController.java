@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class indexController {
-    private static final Logger logger = LoggerFactory.getLogger(indexController.class);
+/*    private static final Logger logger = LoggerFactory.getLogger(indexController.class);
     // GET 요청을 처리하는 메서드
     @RequestMapping("/")
     public String myLog(){
@@ -18,5 +18,5 @@ public class indexController {
         logger.info("인덱스");
         System.out.println("헤이");
         return "index"; // index.html을 반환
-    }
+    }*/
 }
