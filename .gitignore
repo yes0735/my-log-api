@@ -49,3 +49,6 @@ build
 
 ### 환경셋팅 안올라가게 수정 ###
 **/application-*.yml
+
+### log 파일 ###
+/logs

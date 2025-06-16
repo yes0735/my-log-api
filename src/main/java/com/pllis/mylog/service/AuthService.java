@@ -6,12 +6,12 @@ import com.pllis.mylog.domain.User;
 import com.pllis.mylog.dto.AuthDto;
 import com.pllis.mylog.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,7 +23,7 @@ public class AuthService {
     private final JwtConfig jwtConfig;
 
     @Transactional(readOnly = true)
-    public AuthDto.Login2FAResponse loginProc(AuthDto.LoginRequest loginRequest) throws Exception {
+    public AuthDto.Login2FAResponse loginProc(AuthDto.LoginRequest loginRequest, HttpServletResponse response) throws Exception {
 
         String currentTimeMs = Long.toString(System.currentTimeMillis());
         final String userType = "user";

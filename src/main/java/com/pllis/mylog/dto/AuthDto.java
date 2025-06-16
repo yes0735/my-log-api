@@ -18,12 +18,12 @@ public class AuthDto {
 
 	@Builder
 	public record LoginRequest(
-        @NotBlank(message = "아이디를 입력하세요")
-        @Schema(title = "관리자 아이디", description = "로그인 아이디")
+        @NotBlank(message = "이메일 입력하세요")
+        @Schema(title = "사용자 이메일", description = "로그인 이메일")
         String loginId,
 
         @NotBlank(message = "비밀번호를 입력하세요")
-        @Schema(title = "관리자 비밀번호", description = "관리자 비밀번호")
+        @Schema(title = "사용자 비밀번호", description = "사용자 비밀번호")
         String loginPw
 	) {}
 
