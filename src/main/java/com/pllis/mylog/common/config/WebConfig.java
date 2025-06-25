@@ -28,7 +28,14 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptorHandler)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-ui/**");
+                .excludePathPatterns(
+                    "/swagger-ui/**",
+                    "/error",              // <-- 에러 경로 추가
+                    "/favicon.ico",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**"
+                );
     }
 
     @Override
