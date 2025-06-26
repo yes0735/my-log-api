@@ -26,7 +26,7 @@ public class AuthService {
     public AuthDto.Login2FAResponse loginProc(AuthDto.LoginRequest loginRequest, HttpServletResponse response) throws Exception {
 
         String currentTimeMs = Long.toString(System.currentTimeMillis());
-        final String userType = "user";
+//        final String userType = "user";
         String loginId = loginRequest.loginId();
         String loginPw = loginRequest.loginPw();
 
@@ -36,8 +36,8 @@ public class AuthService {
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자 입니다."));
         if (!user.getUserPassword().equals(EncryptionUtils.encryptSHA512(loginPw))) throw new EntityNotFoundException("아이디 또는 패스워드가 일치 하지 않습니다.");
 
-        String accessToken = jwtConfig.createAccessToken(loginId, userType);
-        String refreshToken = jwtConfig.createRefreshToken(loginId, userType);
+        String accessToken = jwtConfig.createAccessToken(loginId, optionalUser.get().getUserNo());
+        String refreshToken = jwtConfig.createRefreshToken(loginId, optionalUser.get().getUserNo());
 
         return AuthDto.Login2FAResponse.builder()
                 .accessToken(accessToken)
@@ -52,14 +52,13 @@ public class AuthService {
         // 유효한 토큰인지 체크
         jwtConfig.validateToken(getRefreshToken);
 
-        String loginId = jwtConfig.getLoginId(getRefreshToken);
-        String userType = "user";
+        String loginId = jwtConfig.getUserMail(getRefreshToken);
 
         Optional<User> optionalUser = userRepository.findUserByUserMail(loginId);
         User user = optionalUser.orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자 입니다."));
 
-        String accessToken = jwtConfig.createAccessToken(loginId, userType);
-        String refreshToken = jwtConfig.createRefreshToken(loginId, userType);
+        String accessToken = jwtConfig.createAccessToken(loginId, optionalUser.get().getUserNo());
+        String refreshToken = jwtConfig.createRefreshToken(loginId, optionalUser.get().getUserNo());
 
         return AuthDto.Login2FAResponse.builder()
                 .accessToken(accessToken)

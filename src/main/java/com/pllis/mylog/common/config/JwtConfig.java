@@ -46,26 +46,26 @@ public class JwtConfig {
      * Access Token 생성
      * @return Access Token String
      */
-    public String createAccessToken(String loginId, String userType) {
-        return createToken(loginId, userType, accessTokenExpTime * 7);
+    public String createAccessToken(String userMail, Integer userNo) {
+        return createToken(userMail, userNo, accessTokenExpTime * 7);
     }
 
     /**
      * Refresh Token 생성
      * @return Access Token String
      */
-    public String createRefreshToken(String loginId, String userType) {
-        return createToken(loginId, userType, accessTokenExpTime * 14);
+    public String createRefreshToken(String userMail, Integer userNo) {
+        return createToken(userMail, userNo, accessTokenExpTime * 14);
     }
 
     /**
      * JWT 생성
      * @return JWT String
      */
-    private String createToken(String loginId, String userType, long expireTime) {
+    private String createToken(String userMail, Integer userNo, long expireTime) {
         Claims claims = Jwts.claims();
-        claims.put("loginId", loginId);
-        claims.put("userType", userType);
+        claims.put("userMail", userMail);
+        claims.put("userNo", userNo);
 
         ZonedDateTime now = ZonedDateTime.now();
         ZonedDateTime tokenValidity = now.plusSeconds(expireTime);
@@ -82,16 +82,16 @@ public class JwtConfig {
      * Token 에서 Login Id 추출
      * @return  Login Id (Long)
      */
-    public String getLoginId(String token) {
-        return parseClaims(token).get("loginId", String.class);
+    public String getUserMail(String token) {
+        return parseClaims(token).get("userMail", String.class);
     }
 
     /**
      * Token 에서 User Type 추출
      * @return User Type (Long)
      */
-    public String getUserType(String token) {
-        return parseClaims(token).get("userType", String.class);
+    public Integer getUserNo(String token) {
+        return parseClaims(token).get("userNo", Integer.class);
     }
 
     /**

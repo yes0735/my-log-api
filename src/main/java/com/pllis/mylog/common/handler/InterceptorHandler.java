@@ -74,11 +74,11 @@ public class InterceptorHandler implements HandlerInterceptor {
         }
 
         // [STEP4] 토큰을 기반으로 사용자 아이디를 반환 받는 메서드
-        String loginId = jwtConfig.getLoginId(accessToken);
-        String userType = jwtConfig.getUserType(accessToken);
+        String loginId = jwtConfig.getUserMail(accessToken);
+        Integer userNo = jwtConfig.getUserNo(accessToken);
         // --
         log.info("loginId: {}", loginId);
-        log.info("userType: {}", userType);
+        log.info("userNo: {}", userNo);
 
         /*
          * 유니크 아이디가 없을경우
@@ -91,13 +91,13 @@ public class InterceptorHandler implements HandlerInterceptor {
          * 관리자 DAO 호출
          */
 
-        if (!userType.equals("user")) throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "허용불가");
+//        if (!userType.equals("user")) throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "허용불가");
 
         Optional<User> user = userRepository.findUserByUserMail(loginId);
         if (user.isEmpty()) throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "존재하지 않는 관리자 입니다");
 
-        request.setAttribute("loginId", loginId);
-        request.setAttribute("userType", userType);
+        request.setAttribute("userMail", loginId);
+        request.setAttribute("userNo", userNo);
         request.setAttribute("loginInfo", user);
 //        request.setAttribute("modelmapper", modelmapper);
 
