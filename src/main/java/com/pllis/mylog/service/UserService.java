@@ -45,6 +45,7 @@ public class UserService {
                     .userMail(requestDto.userMail())
                     .userPassword(EncryptionUtils.encryptSHA512(requestDto.userPassword()))
                     .userNickname(requestDto.userNickname())
+                    .userMobilePhoneNumber(requestDto.userMobilePhoneNumber())
                     .userStatus("available")
                     .build();
 

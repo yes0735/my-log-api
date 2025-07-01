@@ -25,7 +25,11 @@ public class UserDto {
 
         @NotBlank(message = "닉네임을 입력하세요")
         @Schema(title = "사용자 닉네임", description = "사용자 닉네임")
-        String userNickname
+        String userNickname,
+
+        @NotBlank(message = "핸드폰번호를 입력하세요")
+        @Schema(title = "사용자 핸드폰번호", description = "사용자 핸드폰번호")
+        String userMobilePhoneNumber
 	) {}
 }
 
