@@ -2,6 +2,8 @@ package com.pllis.mylog.repository;
 
 import com.pllis.mylog.domain.User;
 import com.pllis.mylog.dto.UserBookListDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,6 +32,6 @@ public interface BookRepository extends JpaRepository<User, Integer> {  // JpaRe
             "LEFT JOIN CommonCode R ON M.readStatus = R.code AND R.useYn = 'Y' " +
             "LEFT JOIN CommonCode C ON M.collectionType = C.code AND C.useYn = 'Y' " +
             "WHERE U.userNo = :userNo")
-    List<UserBookListDto> findUserBookList(@Param("userNo") Integer userNo);
+    Page<UserBookListDto> findUserBookList(@Param("userNo") Integer userNo, Pageable pageable);
 
 }

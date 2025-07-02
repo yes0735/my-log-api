@@ -1,12 +1,10 @@
 package com.pllis.mylog.service;
 
-import com.pllis.mylog.common.config.JwtConfig;
-import com.pllis.mylog.dto.AuthDto;
 import com.pllis.mylog.dto.UserBookListDto;
 import com.pllis.mylog.repository.BookRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookService {
     public final BookRepository bookRepository;
-    private final HttpServletRequest context;
 
-    public List<UserBookListDto> getUserBooks() {
-        Integer userNo = (Integer) context.getAttribute("userNo");
-        return bookRepository.findUserBookList(userNo);
+    /**
+     * 사용자가 등록한 책 불러오기
+     * @param userNo 사용자 번호
+     * @return 책 리스트
+    **/
+    public Page<UserBookListDto> getUserBooks(Integer userNo, Pageable pageable) {
+        return bookRepository.findUserBookList(userNo,pageable);
     }
 }
