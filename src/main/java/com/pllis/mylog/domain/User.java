@@ -34,6 +34,9 @@ public class User {
     @Column(name = "USER_PASSWORD")
     private String userPassword;
 
+    @Column(name = "USER_MOBILE_PHONE_NUMBER")
+    private String userMobilePhoneNumber;
+
     @CreatedDate
     @Column(name = "REGISTRATION_DATETIME")
     private Date registrationDatetime;
@@ -46,10 +49,11 @@ public class User {
     private String userStatus;
 
     @Builder
-    public User(String userMail, String userPassword, String userNickname, String userStatus) {
+    public User(String userMail, String userPassword, String userNickname, String userMobilePhoneNumber, String userStatus) {
         this.userMail = userMail;
         this.userPassword = userPassword;
         this.userNickname = userNickname;
+        this.userMobilePhoneNumber = userMobilePhoneNumber;
         this.userStatus = userStatus;
     }
 }
