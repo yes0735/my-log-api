@@ -40,7 +40,9 @@ public class InterceptorHandler implements HandlerInterceptor {
 //    private final ModelMapper modelmapper;
 
     @Override
-    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) throws Exception {
+    public boolean preHandle(@NonNull HttpServletRequest request,
+                             @NonNull HttpServletResponse response,
+                             @NonNull Object handler) throws Exception {
 
         // options는 무조건 통과
         if (HttpMethod.OPTIONS.matches(request.getMethod())) return true;
