@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<User, Integer> {  // JpaRepository로 변경
-    @Query("SELECT new com.pllis.mylog.dto.UserBookListDto(" +
+   @Query("SELECT new com.pllis.mylog.dto.UserBookListDto(" +
             "U.userNo, " +
             "U.userMail, " +
             "U.userNickname, " +
@@ -32,6 +32,29 @@ public interface BookRepository extends JpaRepository<User, Integer> {  // JpaRe
             "LEFT JOIN CommonCode R ON M.readStatus = R.code AND R.useYn = 'Y' " +
             "LEFT JOIN CommonCode C ON M.collectionType = C.code AND C.useYn = 'Y' " +
             "WHERE U.userNo = :userNo")
-    Page<UserBookListDto> findUserBookList(@Param("userNo") Integer userNo, Pageable pageable);
 
+    Page<UserBookListDto> findUserBookList(@Param("userNo") Integer userNo, Pageable pageable, @Param("readStatus") String readStatus);
+
+    @Query("SELECT new com.pllis.mylog.dto.UserBookListDto(" +
+            "U.userNo, " +
+            "U.userMail, " +
+            "U.userNickname, " +
+            "M.myBookNo, " +
+            "M.bookTitle, " +
+            "M.bookImageLink, " +
+            "M.readStatus, " +
+            "R.codeName AS readStatusName, " +
+            "M.collectionType, " +
+            "C.codeName AS collectionTypeName, " +
+            "M.totalPage, " +
+            "M.readPage, " +
+            "M.scope, " +
+            "M.registrationDatetime, " +
+            "M.updateDatetime )" +
+            "FROM User U " +
+            "INNER JOIN MyBook M ON U.userNo = M.userNo " +
+            "LEFT JOIN CommonCode R ON M.readStatus = R.code AND R.useYn = 'Y' " +
+            "LEFT JOIN CommonCode C ON M.collectionType = C.code AND C.useYn = 'Y' " +
+            "WHERE U.userNo = :userNo AND M.readStatus = :readStatus")
+    Page<UserBookListDto> findUserBookListReadStatus(@Param("userNo") Integer userNo, Pageable pageable, @Param("readStatus") String readStatus);
 }
