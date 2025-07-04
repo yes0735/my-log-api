@@ -28,7 +28,9 @@ public class AuthController extends BaseController{
     @Operation(summary = "로그인", description = "로그인 API ")
     @PostMapping("/login")
     @ResponseBody
-    public ApiResponseHandler<AuthDto.Login2FAResponse> postLogin(@RequestBody @Valid AuthDto.LoginRequest loginRequest, HttpServletResponse response) throws Exception {
+    public ApiResponseHandler<AuthDto.Login2FAResponse> postLogin(@RequestBody @Valid AuthDto.LoginRequest loginRequest,
+                                                                  HttpServletResponse response) throws Exception {
+
         AuthDto.Login2FAResponse result = authService.loginProc(loginRequest, response);
 
         return new ApiResponseHandler<>(result, 200, "ok");
@@ -39,6 +41,7 @@ public class AuthController extends BaseController{
     @PutMapping("/login/refresh")
     @ResponseBody
     public ApiResponseHandler<AuthDto.Login2FAResponse> putRefresh(@RequestBody @Valid AuthDto.RefreshTokenRequest refreshTokenRequest) throws Exception {
+
         AuthDto.Login2FAResponse result = authService.refreshProc(refreshTokenRequest);
 
         return new ApiResponseHandler<>(result, 200, "ok");
