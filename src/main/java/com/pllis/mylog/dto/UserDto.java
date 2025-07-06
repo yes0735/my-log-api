@@ -23,6 +23,10 @@ public class UserDto {
         @Schema(title = "사용자 비밀번호", description = "사용자 비밀번호")
         String userPassword,
 
+        @NotBlank(message = "비밀번호를 입력하세요")
+        @Schema(title = "사용자 비밀번호 재입력", description = "사용자 비밀번호 재입력")
+        String userPasswordConfirm,
+
         @NotBlank(message = "닉네임을 입력하세요")
         @Schema(title = "사용자 닉네임", description = "사용자 닉네임")
         String userNickname,

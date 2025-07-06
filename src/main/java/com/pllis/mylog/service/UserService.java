@@ -31,15 +31,17 @@ public class UserService {
     @Transactional
     public CommonDto.trueResponse postUserJoin(UserDto.JoinRequest requestDto) throws Exception {
 
-        // TODO: 이메일 중복체크 로직
-//        Optional<User> optionalUser = userRepository.findUserByUserMail(requestDto.userMail());
-//        optionalUser.orElseThrow(() -> new EntityNotFoundException("이미 사용중인 이메일 입니다."));
-
         try {
+            // 이메일 중복체크 로직
             userRepository.findUserByUserMail(requestDto.userMail())
                     .ifPresent(user -> {
-                        throw new DuplicateUserException("이미 등록된 이메일입니다");
+                        throw new DuplicateUserException("이미 등록된 이메일입니다.");
                     });
+
+            // 비밀번호, 비밀번호 재입력 유효성 검증
+            if (!requestDto.userPassword().equals(requestDto.userPasswordConfirm())) {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
 
             User user = User.builder()
                     .userMail(requestDto.userMail())
