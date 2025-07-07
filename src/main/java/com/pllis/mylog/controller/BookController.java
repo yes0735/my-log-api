@@ -79,7 +79,7 @@ public class BookController extends BaseController{
 
         Sort sort;
         switch (sortBy) {
-            case "latestOrder":
+            case "registrationDatetime":
                 sort = Sort.by(Sort.Direction.DESC, "registrationDatetime");
                 break;
             case "scope":
