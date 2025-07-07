@@ -8,11 +8,14 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
+/**
+ * 사용자가 등록한 책 리스트 조회 응답DTO
+ **/
 public class UserBookListDto {
     // USER 테이블 관련 필드
-    private Integer userNo;
+/*    private Integer userNo;
     private String userMail;
-    private String userNickname;
+    private String userNickname;*/
 
     // MY_BOOK 테이블 관련 필드
     private Integer myBookNo;

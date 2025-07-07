@@ -2,7 +2,7 @@ package com.pllis.mylog.controller;
 
 import com.pllis.mylog.common.exception.UnauthenticatedException;
 import com.pllis.mylog.common.handler.ApiResponseHandler;
-import com.pllis.mylog.dto.UserBookListDto;
+import com.pllis.mylog.dto.MyBookListResponseDto;
 import com.pllis.mylog.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,11 +43,11 @@ public class BookController extends BaseController{
 
     @Operation(summary = "등록된 책 리스트", description = "등록된 책 리스트 API 입니다.")
     @GetMapping("/book")
-    public ApiResponseHandler<Page<UserBookListDto>> getUserBooks(HttpServletRequest request,
-                                                                  @PageableDefault(size=12,sort = "registrationDatetime")Pageable pageable,
-                                                                  @RequestParam(required = false) String readStatus ,
-                                                                  @RequestParam(required = false) String sortBy,
-                                                                  @RequestParam(required = false) String collectionType) {
+    public ApiResponseHandler<Page<MyBookListResponseDto>> getUserBooks(HttpServletRequest request,
+                                                                        @PageableDefault(size=12,sort = "registrationDatetime")Pageable pageable,
+                                                                        @RequestParam(required = false) String readStatus ,
+                                                                        @RequestParam(required = false) String sortBy,
+                                                                        @RequestParam(required = false) String collectionType) {
         /*log.info("user 메인 페이지 입니다.");*/
         /*log.info("탭:{}",readStatus);*/
 
@@ -63,7 +63,7 @@ public class BookController extends BaseController{
         Pageable sortedPageable = applySort(pageable, sortBy);
         
         //책 리스트 호출, userNo, 페이징 정보 전달
-        Page<UserBookListDto> userBooks = bookService.getUserBooks(userNo,sortedPageable,readStatus,collectionType);
+        Page<MyBookListResponseDto> userBooks = bookService.getMyBookListResponseDtos(userNo,sortedPageable,readStatus,collectionType);
         log.info(userBooks.toString());
         return new ApiResponseHandler<>(userBooks, 200, "사용자의 책 리스트를 성공적으로 가져왔습니다.");
     }
