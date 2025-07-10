@@ -44,8 +44,8 @@ public class BookApiService {
                 .path(path)
                 .queryParam("ttbkey", ttbKey)
                 .queryParam("Query", searchValue) // 검색어
-                .queryParam("QueryType", searchType) // 검색어 종류 (기본값: 제목+저자)
-                .queryParam("SearchTarget", "All") // 검색 대상 Mall (기본값: 도서) -> 도서,외국도서,음반,DVD, 중고샵, 전자책 (모든 타켓 ALL로 설정)
+                .queryParam("QueryType", "Keyword") // 검색어 종류 (기본값: 제목+저자)
+                .queryParam("SearchTarget", searchType) // 검색 대상 Mall (기본값: 도서) -> 도서, 외국도서, 전자책
                 .queryParam("MaxResults", 100) // 검색결과 한 페이지당 최대 출력 개수 (기본값: 10)
                 .queryParam("start", 1) // 검색결과 시작페이지
                 .queryParam("sort", "Accuracy") // 정렬순서 (기본값: 관련도)
