@@ -48,4 +48,9 @@ public class MyBook {
     private Date registrationDatetime;
     @Column(name = "UPDATE_DATETIME")
     private Date updateDatetime;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "DELETE_YN")
+    private DeleteStatus deleteYn;
+    @Column(name="DELETE_DATETIME")
+    private Date deleteDatetime;
 }
