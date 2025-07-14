@@ -1,6 +1,5 @@
 package com.pllis.mylog.controller;
 
-import com.pllis.mylog.common.exception.UnauthenticatedException;
 import com.pllis.mylog.common.handler.ApiResponseHandler;
 import com.pllis.mylog.dto.MyBookListResponseDto;
 import com.pllis.mylog.service.BookService;
@@ -51,16 +50,16 @@ public class BookController extends BaseController{
 
         //토큰에서 userNo추출
         Integer userNo = (Integer) request.getAttribute("userNo");
-        
+
         //파라미터 sortBy 기준으로 pageable에 정렬 적용
         Pageable sortedPageable = applySort(pageable, sortBy);
-        
+
         //책 리스트 호출, userNo, 페이징 정보 전달
         Page<MyBookListResponseDto> userBooks = bookService.getMyBookListResponseDtos(userNo,sortedPageable,readStatus,collectionType);
         log.info(userBooks.toString());
         return new ApiResponseHandler<>(userBooks, 200, "사용자의 책 리스트를 성공적으로 가져왔습니다.");
     }
-    
+
     /**
      * Pageable에 파라미터로 요청한 정렬을 반영하여 새로운 Pageable 객체 반환
      * @param pageable 현재 페이지 정보(Page 번호, 크기, 정렬 등)
@@ -76,7 +75,8 @@ public class BookController extends BaseController{
                 sort = Sort.by(Sort.Direction.DESC, "registrationDatetime");
                 break;
             case "scope":
-                sort = Sort.by(Sort.Direction.DESC, "scope");
+                sort = Sort.by(Sort.Direction.DESC, "scope")
+                        .and(Sort.by(Sort.Direction.DESC,"registrationDatetime"));
                 break;
             default:
                 sort = pageable.getSort();

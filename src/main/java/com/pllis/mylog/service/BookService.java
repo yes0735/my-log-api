@@ -2,12 +2,13 @@ package com.pllis.mylog.service;
 
 import com.pllis.mylog.domain.DeleteStatus;
 import com.pllis.mylog.dto.MyBookListResponseDto;
+import com.pllis.mylog.repository.BookLogRepository;
 import com.pllis.mylog.repository.BookRepository;
+import com.pllis.mylog.repository.MyBookListRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BookService {
     public final BookRepository bookRepository;
-
+    public final MyBookListRepository myBookListRepository;
+    public final BookLogRepository bookLogRepository;
     /**
      * 사용자가 등록한 책 불러오기(4가지 필터 지원)
      *  - 기본 조회(최근 등록된 모든 책 목록)
@@ -36,29 +38,35 @@ public class BookService {
 
         //기본 조회
         if (noReadStatus && noCollectionType) { 
-            return bookRepository.findUserBookList(userNo, pageable, null);
+            return myBookListRepository.findUserBookList(userNo, pageable);
         }
 
         //noReadStatus만 있을때(탭)
         if (!noReadStatus && noCollectionType) {
-            return bookRepository.findUserBookListReadStatus(userNo, pageable, readStatus);
+            return myBookListRepository.findUserBookListReadStatus(userNo, pageable, readStatus);
         }
 
         //noCollectionType만 있을 때(소장 유형별)
         if (noReadStatus && !noCollectionType) {
             log.info(collectionType);
-            return bookRepository.findUserBookListCollectionType(userNo, pageable, collectionType);
+            return myBookListRepository.findUserBookListCollectionType(userNo, pageable, collectionType);
         }
 
         //둘 다 있을 때
-        return bookRepository.findUserBookListReadStatusAndCollectionType(userNo, pageable, readStatus,collectionType);
+        return myBookListRepository.findUserBookListReadStatusAndCollectionType(userNo, pageable, readStatus,collectionType);
 
     }
 
     @Transactional
     public void softDeleteByMyBook(Integer myBookNo){
-        bookRepository.softDeleteByBookLog(myBookNo, DeleteStatus.Y);
-        bookRepository.softDeleteByMyBook(myBookNo,DeleteStatus.Y);
+        try{
+            bookLogRepository.softDeleteByBookLog(myBookNo, DeleteStatus.Y);
+            bookRepository.softDeleteByMyBook(myBookNo,DeleteStatus.Y);
+        }catch (Exception e){
+            log.error("마이 책 삭제 실패, myBook{}", myBookNo, e);
+            throw new RuntimeException("마이 책 삭제 중 오류 발생",e);
+        }
+
     }
 
 }
