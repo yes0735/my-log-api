@@ -14,9 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 나의 책
@@ -42,7 +40,7 @@ public class BookController extends BaseController{
      **/
 
     @Operation(summary = "등록된 책 리스트", description = "등록된 책 리스트 API 입니다.")
-    @GetMapping("/book")
+    @GetMapping("/my-book")
     public ApiResponseHandler<Page<MyBookListResponseDto>> getUserBooks(HttpServletRequest request,
                                                                         @PageableDefault(size=12,sort = "registrationDatetime")Pageable pageable,
                                                                         @RequestParam(required = false) String readStatus ,
@@ -53,11 +51,6 @@ public class BookController extends BaseController{
 
         //토큰에서 userNo추출
         Integer userNo = (Integer) request.getAttribute("userNo");
-
-        if(userNo==null){
-            log.warn("토큰 없음 또는 유효하지 않음");
-            throw new UnauthenticatedException("로그인 후 이용해주세요.");
-        }
         
         //파라미터 sortBy 기준으로 pageable에 정렬 적용
         Pageable sortedPageable = applySort(pageable, sortBy);
@@ -91,6 +84,14 @@ public class BookController extends BaseController{
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
     }
+
+    @Operation(summary = "등록된 내 책 삭제", description = "등록된 책 삭제 API 입니다.")
+    @DeleteMapping("my-book/{myBookNo}")
+    public ApiResponseHandler<Void> deleteUserBook(@PathVariable Integer myBookNo){
+        bookService.softDeleteByMyBook(myBookNo);
+        return new ApiResponseHandler<>(200,"삭제가 완료되었습니다.");
+    }
+
 
 }
 

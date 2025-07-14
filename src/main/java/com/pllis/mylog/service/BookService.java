@@ -1,12 +1,16 @@
 package com.pllis.mylog.service;
 
+import com.pllis.mylog.domain.DeleteStatus;
 import com.pllis.mylog.dto.MyBookListResponseDto;
 import com.pllis.mylog.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -49,6 +53,12 @@ public class BookService {
         //둘 다 있을 때
         return bookRepository.findUserBookListReadStatusAndCollectionType(userNo, pageable, readStatus,collectionType);
 
+    }
+
+    @Transactional
+    public void softDeleteByMyBook(Integer myBookNo){
+        bookRepository.softDeleteByBookLog(myBookNo, DeleteStatus.Y);
+        bookRepository.softDeleteByMyBook(myBookNo,DeleteStatus.Y);
     }
 
 }
