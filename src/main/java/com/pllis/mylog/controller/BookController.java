@@ -64,6 +64,7 @@ public class BookController extends BaseController{
      * Pageable에 파라미터로 요청한 정렬을 반영하여 새로운 Pageable 객체 반환
      * @param pageable 현재 페이지 정보(Page 번호, 크기, 정렬 등)
      * @param sortBy 정렬 기준 문자열 (예:"registrationDatetime","scope")
+     * scope 정렬 시 별점이 높은 최신순으로 정렬
      * @return 정렬 조건이 적용된 Pageable 객체
      * */
     private Pageable applySort(Pageable pageable, String sortBy) {
@@ -84,6 +85,12 @@ public class BookController extends BaseController{
         return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
     }
+
+    /**
+     * 등록된 책 단건 삭제(soft delete)
+     * @param myBookNo 삭제할 나의 책 번호
+     * @return 삭제 완료 메시지를 포함한 응답 객체
+     **/
 
     @Operation(summary = "등록된 내 책 삭제", description = "등록된 책 삭제 API 입니다.")
     @DeleteMapping("my-book/{myBookNo}")

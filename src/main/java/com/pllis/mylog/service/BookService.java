@@ -57,11 +57,18 @@ public class BookService {
 
     }
 
+
+    /**
+     * 책 기록(bookLog) 삭제 후, 나의 책(myBook)을 soft delete 처리
+     *  - @Transactional 적용으로 두 작업 중 하나라도 실패 시 전체 롤백
+     *
+     * @param myBookNo 나의 책 번호
+     **/
     @Transactional
     public void softDeleteByMyBook(Integer myBookNo){
         try{
-            bookLogRepository.softDeleteByBookLog(myBookNo, DeleteStatus.Y);
-            bookRepository.softDeleteByMyBook(myBookNo,DeleteStatus.Y);
+            bookLogRepository.softDeleteByBookLog(myBookNo, DeleteStatus.Y);// 삭제 상태 Enum 값: Y
+            bookRepository.softDeleteByMyBook(myBookNo,DeleteStatus.Y);// 삭제 상태 Enum 값: Y
         }catch (Exception e){
             log.error("마이 책 삭제 실패, myBook{}", myBookNo, e);
             throw new RuntimeException("마이 책 삭제 중 오류 발생",e);
