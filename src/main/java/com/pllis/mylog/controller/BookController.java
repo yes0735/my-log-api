@@ -13,7 +13,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * 나의 책
@@ -93,11 +97,25 @@ public class BookController extends BaseController{
      **/
 
     @Operation(summary = "등록된 내 책 삭제", description = "등록된 책 삭제 API 입니다.")
-    @DeleteMapping("my-book/{myBookNo}")
+    @DeleteMapping("/my-book/{myBookNo}")
     public ApiResponseHandler<Void> deleteUserBook(@PathVariable Integer myBookNo){
         bookService.softDeleteByMyBook(myBookNo);
         return new ApiResponseHandler<>(200,"삭제가 완료되었습니다.");
     }
+
+
+    @Operation(summary = "책 기록 등록", description = "책 기록을 등록하는 API 입니다.")
+    @PostMapping(value = "/my-book", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponseHandler<Void> insertMyBookLog(@RequestPart("bookInfo") String bookInfoJson,
+                                                    @RequestPart("blocks") String blocksJson,
+                                                    @RequestPart(value = "coverImage", required = false) MultipartFile coverImage) throws IOException {
+        log.info(bookInfoJson);
+        log.info(blocksJson);
+        log.info(coverImage.getName());
+        return new ApiResponseHandler<>(200,"책 로그가 등록되었습니다.");
+
+    }
+
 
 
 }

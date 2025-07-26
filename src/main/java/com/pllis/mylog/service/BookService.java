@@ -19,6 +19,7 @@ public class BookService {
     public final BookRepository bookRepository;
     public final MyBookListRepository myBookListRepository;
     public final BookLogRepository bookLogRepository;
+
     /**
      * 사용자가 등록한 책 불러오기(4가지 필터 지원)
      *  - 기본 조회(최근 등록된 모든 책 목록)
@@ -75,5 +76,4 @@ public class BookService {
         }
 
     }
-
 }

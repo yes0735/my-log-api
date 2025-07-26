@@ -16,4 +16,8 @@ public interface BookRepository extends JpaRepository<MyBook, Integer> {  // Jpa
             "WHERE m.myBookNo = :myBookNo AND m.deleteYn='N'")
     void softDeleteByMyBook(@Param("myBookNo")Integer myBookNo,
                             @Param("deleteStatus") DeleteStatus deleteStatus);
+
+
 }
+
+
