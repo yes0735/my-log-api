@@ -44,6 +44,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: Grant execute permisson for gradlew
+        run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build -x test
 
