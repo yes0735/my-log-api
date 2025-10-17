@@ -1,0 +1,60 @@
+name: '[PRODUCTION] my-log-api deploy'
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create configuration files
+        run: |
+          echo "${{ secrets.APPLICATION_LOCAL }}" > src/main/resources/application-local.yml
+          echo "${{ secrets.APPLICATION_DEV }}" > src/main/resources/application-dev.yml
+          echo "${{ secrets.APPLICATION_PROD }}" > src/main/resources/application-prod.yml
+          echo '${{ secrets.APPLICATION_SECRET }}' > src/main/resources/application-secret.yml 
+          echo "${{ secrets.APPLICATION_SWAGGER }}" > src/main/resources/application-swagger.yml
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Docker Hub build & push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_SSH_PORT }}
+
+          script: |
+            sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            sudo docker rm -f $(sudo docker ps -qa)
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO }}
+            sudo docker-compose up -d
+            sudo docker image prune -f
